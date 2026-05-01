@@ -25,7 +25,10 @@
   --sans:    'Syne', sans-serif;
   --nav-h:   70px;
 }
+.nav-links a.active { color: var(--accent); }
+.nav-links a.active::after { transform: scaleX(1); }
 
+.mobile-menu a.active { color: var(--accent); }
 html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
@@ -1064,10 +1067,30 @@ footer .f-accent { color: var(--accent); }
 <footer>
   <span class="f-accent">Md. Kawsar Hasan</span>
   <span>Sr. Test Automation Engineer · Dhaka, Bangladesh</span>
-  <span>© 2025 — Built with precision</span>
+  <span>© 2026 — Built with precision</span>
 </footer>
 
 <script>
+  // Active nav on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+const mobileLinks = document.querySelectorAll('.mobile-menu a');
+
+function setActiveNav() {
+  let current = '';
+  sections.forEach(section => {
+    const sTop = section.offsetTop - 120;
+    if (window.scrollY >= sTop) current = section.getAttribute('id');
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+  mobileLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+}
+window.addEventListener('scroll', setActiveNav);
+setActiveNav();
   // Hamburger menu
   const hamburger = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobileMenu');
