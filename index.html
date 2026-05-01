@@ -24,11 +24,23 @@
   --mono:    'Space Mono', monospace;
   --sans:    'Syne', sans-serif;
   --nav-h:   70px;
+  --nav-bg:  rgba(10,12,15,0.92);
 }
-.nav-links a.active { color: var(--accent); }
-.nav-links a.active::after { transform: scaleX(1); }
 
-.mobile-menu a.active { color: var(--accent); }
+/* LIGHT THEME */
+html.light {
+  --bg:      #f0f4f8;
+  --bg2:     #e4eaf2;
+  --bg3:     #dde4ee;
+  --surface: #cdd6e5;
+  --border:  #b8c5d8;
+  --accent:  #007a4d;
+  --accent2: #005fa3;
+  --text:    #0f1923;
+  --muted:   #4a5a72;
+  --nav-bg:  rgba(240,244,248,0.95);
+}
+
 html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
@@ -36,6 +48,7 @@ body {
   font-family: var(--sans);
   line-height: 1.6;
   overflow-x: hidden;
+  transition: background 0.3s, color 0.3s;
 }
 
 ::-webkit-scrollbar { width: 4px; }
@@ -50,7 +63,7 @@ nav {
   height: var(--nav-h);
   padding: 0 4rem;
   display: flex; align-items: center; justify-content: space-between;
-  background: rgba(10,12,15,0.92);
+  background: var(--nav-bg);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border);
 }
@@ -75,6 +88,19 @@ nav {
 }
 .nav-links a:hover { color: var(--accent); }
 .nav-links a:hover::after { transform: scaleX(1); }
+.nav-links a.active { color: var(--accent); }
+.nav-links a.active::after { transform: scaleX(1); }
+
+/* Theme toggle */
+.theme-toggle {
+  display: flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px;
+  background: var(--bg3); border: 1px solid var(--border);
+  cursor: pointer; flex-shrink: 0;
+  transition: border-color 0.2s, background 0.2s;
+  font-size: 1rem;
+}
+.theme-toggle:hover { border-color: var(--accent); }
 
 /* Hamburger */
 .hamburger {
@@ -108,6 +134,7 @@ nav {
 }
 .mobile-menu a:last-child { border-bottom: none; }
 .mobile-menu a:hover { color: var(--accent); }
+.mobile-menu a.active { color: var(--accent); }
 
 /* ============================================================
    HERO
@@ -156,14 +183,14 @@ nav {
   flex-shrink: 0; position: relative;
 }
 .hero-photo-frame {
-  width: 280px; height: 300px;
+  width: 280px; height: 340px;
   border: 2px solid var(--border);
   position: relative; overflow: hidden;
   background: var(--bg3);
   clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%);
 }
 .hero-photo-frame img {
-  width: 100%; height: 100%; object-fit: cover; object-position: center center;;
+  width: 100%; height: 100%; object-fit: cover; object-position: center center;
   display: block;
 }
 .hero-photo-frame .photo-placeholder {
@@ -546,6 +573,21 @@ footer .f-accent { color: var(--accent); }
 }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
+/* Light theme overrides for hero glows */
+html.light .hero-grid-bg {
+  background-image:
+    linear-gradient(rgba(0,122,77,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,122,77,0.06) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+html.light .hero-glow {
+  background: radial-gradient(circle, rgba(0,122,77,0.08) 0%, transparent 70%);
+}
+html.light .hero-glow2 {
+  background: radial-gradient(circle, rgba(0,95,163,0.06) 0%, transparent 70%);
+}
+html.light .btn-primary { color: #fff; }
+
 /* ============================================================
    RESPONSIVE — tablet 900px
 ============================================================ */
@@ -613,9 +655,12 @@ footer .f-accent { color: var(--accent); }
     <li><a href="#education">Education</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <button class="hamburger" id="hamburger" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <div style="display:flex;align-items:center;gap:0.75rem">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle light/dark">🌙</button>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
@@ -656,14 +701,7 @@ footer .f-accent { color: var(--accent); }
     <!-- PHOTO — replace src with your actual photo path e.g. src="photo.jpg" -->
     <div class="hero-photo-wrap">
       <div class="hero-photo-frame">
-        <!-- TO USE YOUR PHOTO: replace the placeholder div below with:
-             <img src="your-photo.jpg" alt="Md. Kawsar Hasan"> -->
-        <div class="photo-placeholder">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-            <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-          </svg>
-          <img src="photo.jpeg" alt="Md. Kawsar Hasan">
-        </div>
+        <img src="photo.jpeg" alt="Md. Kawsar Hasan">
       </div>
       <div class="photo-corner-tl"></div>
       <div class="photo-corner-br"></div>
@@ -1066,31 +1104,23 @@ footer .f-accent { color: var(--accent); }
 
 <footer>
   <span class="f-accent">Md. Kawsar Hasan</span>
-  <span>Sr. Test Automation Engineer · Dhaka, Bangladesh</span>
+  <span>Sr. SDET Engineer · Dhaka, Bangladesh</span>
   <span>© 2026 — Built with precision</span>
 </footer>
 
 <script>
-  // Active nav on scroll
-const sections = document.querySelectorAll('section[id]');
-const navLinks = document.querySelectorAll('.nav-links a');
-const mobileLinks = document.querySelectorAll('.mobile-menu a');
+  // Theme toggle
+  const html = document.documentElement;
+  const themeBtn = document.getElementById('themeToggle');
+  const saved = localStorage.getItem('theme');
+  if (saved === 'light') { html.classList.add('light'); themeBtn.textContent = '☀️'; }
 
-function setActiveNav() {
-  let current = '';
-  sections.forEach(section => {
-    const sTop = section.offsetTop - 120;
-    if (window.scrollY >= sTop) current = section.getAttribute('id');
+  themeBtn.addEventListener('click', () => {
+    const isLight = html.classList.toggle('light');
+    themeBtn.textContent = isLight ? '☀️' : '🌙';
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
   });
-  navLinks.forEach(a => {
-    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
-  });
-  mobileLinks.forEach(a => {
-    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
-  });
-}
-window.addEventListener('scroll', setActiveNav);
-setActiveNav();
+
   // Hamburger menu
   const hamburger = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobileMenu');
@@ -1102,6 +1132,27 @@ setActiveNav();
     hamburger.classList.toggle('open');
     mobileMenu.classList.toggle('open');
   });
+
+  // Active nav on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const mobileLinks = document.querySelectorAll('.mobile-menu a');
+
+  function setActiveNav() {
+    let current = '';
+    sections.forEach(section => {
+      const sTop = section.offsetTop - 120;
+      if (window.scrollY >= sTop) current = section.getAttribute('id');
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+    mobileLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  }
+  window.addEventListener('scroll', setActiveNav);
+  setActiveNav();
 
   // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
